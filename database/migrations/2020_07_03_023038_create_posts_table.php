@@ -17,7 +17,7 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->unsigned();
             $table->string('title')->unique();
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->string('image')->default('default.png');
             $table->text('body');
             $table->boolean('is_approved')->default(false);

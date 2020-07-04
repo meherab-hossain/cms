@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -11,22 +12,13 @@ use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $posts=Post::all();
-        return view('post.index',compact('posts'));
+        $posts = Post::all();
+        return view('post.index', compact('posts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('post.create');
@@ -35,88 +27,135 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'title'=>'required',
-            'image'=>'required',
-            'body'=>'required',
+
+        $this->validate($request, [
+            'title' => 'required|unique:posts',
+            'image' => 'required',
+            'body' => 'required',
         ]);
-        $slugValue=$request->title;
+
+        $slugValue = $request->title;
         //get image
-        $image=$request->file('image');
-        $slug=str_slug($slugValue);
+        $image = $request->file('image');
+        $slug = str_slug($slugValue);
 
         //checking and creating the  image directory
         if (!Storage::disk('public')->exists('post')) {
             Storage::disk('public')->makeDirectory('post');
         }
-        if(isset($image)){
+        if (isset($image)) {
             //unique name for image
-            $currentDate=Carbon::now()->toDateString();
-            $imageName=$slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
-            $postImage=Image::make($image)->resize(1600,1046)->stream();
+            $currentDate = Carbon::now()->toDateString();
+            $imageName = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $postImage = Image::make($image)->resize(1600, 1046)->stream();
 
-            Storage::disk('public')->put('post/'.$imageName,$postImage);
+            Storage::disk('public')->put('post/' . $imageName, $postImage);
 
 
+        } else {
+            $imageName = "default.png";
         }
-        else{
-            $imageName="default.png";
+
+        $post = new Post();
+        $post->title = $request->title;
+        $post->user_id = Auth::id();
+        $post->slug = $slug;
+        $post->image = $imageName;
+        $post->body = $request->body;
+        if($post->user->type=='admin'){
+            $post->is_approved = true;
+        }else{
+            $post->is_approved = false;
         }
 
-        $post=new Post();
-        $post->title=$request->title;
-        $post->user_id=Auth::id();
-        $post->slug=$slug;
-        $post->image=$imageName;
-        $post->body=$request->body;
 
-        $post->is_approved=false;
         $post->save();
-      return redirect('post');
+        return redirect('post');
+    }
+    public function approval($id)
+    {
+        $post = Post::find($id);
+
+        if ($post->is_approved == false) {
+            $post->is_approved = true;
+            $post->save();
+        }
+    }
+    public function show(Post $post)
+    {
+        return view('post.show',compact('post'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function edit(Post $post)
     {
-        //
+        return view('post.edit', compact('post'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function update(Request $request, Post $post)
     {
-        //
+        /*$this->validate($request, [
+            'title' => ['required','unique:posts'],
+            'image' => 'required',
+            'body' => 'required',
+        ]);*/
+        $validatedData = $request->validate([
+            'title' => ['required','unique:posts'],
+            'image' => 'required',
+            'body' => 'required',
+        ]);
+
+        if($validatedData){
+
+            //get image
+            $image = $request->file('image');
+            $slug = str_slug($request->title);
+
+
+            if (isset($image)) {
+                //unique name for image
+                $currentDate = Carbon::now()->toDateString();
+                $imageName = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+                //checking and creating the  image directory
+                if (!Storage::disk('public')->exists('post')) {
+                    Storage::disk('public')->makeDirectory('post');
+                }
+                if (Storage::disk('public')->exists('post/' . $post->image)) {
+                    Storage::disk('public')->delete('post/' . $post->image);
+                }
+                //post image resize and saved in the directory
+                $postImage = Image::make($image)->resize(1600, 1046)->stream();
+                Storage::disk('public')->put('post/' . $imageName, $postImage);
+
+
+            } else {
+                $imageName = "default.png";
+            }
+
+            $post->title = $request->title;
+            $post->user_id = Auth::id();
+            $post->slug = $slug;
+            $post->image = $imageName;
+            $post->body = $request->body;
+            if ($post->user->type == 'admin') {
+
+                $post->is_approved = true;
+            }
+
+            $post->save();
+            return redirect('post');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        if (Storage::disk('public')->exists('post/'.$post->image)) {
+            Storage::disk('public')->delete('post/'.$post->image);
+        }
+        $post->delete();
+        return redirect()->back();
     }
 }

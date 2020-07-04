@@ -34,22 +34,21 @@
                                         <span class="badge bg-pink">pending</span>
                                     @endif</td>
                                 <td>
-                                    <a href="{{--{{route('admin.post.show',$post->id)}}--}}"
+                                    <a href="{{route('post.show',$post->id)}}"
                                        class="btn btn-info waves-effect">
                                         <i class="material-icons">visibility</i>
                                     </a>
-                                    <a href="{{--{{route('admin.post.edit',$post->id)}}--}}"
+                                    <a href="{{route('post.edit',$post->id)}}"
                                        class="btn btn-info waves-effect">
                                         <i class="material-icons">edit</i>
                                     </a>
-                                    <button class="btn btn-danger waves-effect"
-                                            type="button"{{-- onclick="deletePost({{ $post->id }})"--}}>
-                                        <i class="material-icons">delete</i>
-                                    </button>
-                                    {{--  <form id="delete-form-{{ $post->id }}" action="{{ route('admin.post.destroy',$post->id) }}" method="POST" style="display: none;">
-                                          @csrf
-                                          @method('DELETE')
-                                      </form>--}}
+                                    <form method="post" action="{{ route('post.destroy' ,$post->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger waves-effect">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

@@ -8,14 +8,16 @@
                     <div class="card-header">create post</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('post.store') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('post.update',$post->id) }}" enctype="multipart/form-data">
                             @csrf
-
+                            @method('PUT')
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">title</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title') }}" required autofocus>
+                                    <input id="name" type="text"
+                                           class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}"
+                                           name="title" value=" {{$post->title}}" required autofocus>
 
                                     @if ($errors->has('title'))
                                         <span class="invalid-feedback" role="alert">
@@ -29,7 +31,9 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">image</label>
 
                                 <div class="col-md-6">
-                                    <input id="image" type="file" class="form-control{{ $errors->has('image') ? ' is-invalid' : '' }}" name="image" value="{{ old('image') }}" required>
+                                    <input id="image" type="file"
+                                           class="form-control{{ $errors->has('image') ? ' is-invalid' : '' }}"
+                                           name="image" value="{{ $post->image }}" required>
 
                                     @if ($errors->has('image'))
                                         <span class="invalid-feedback" role="alert">
@@ -42,7 +46,9 @@
                                 <label for="body" class="col-md-4 col-form-label text-md-right">body</label>
 
                                 <div class="col-md-6">
-                                    <input id="body" type="text" class="form-control{{ $errors->has('body') ? ' is-invalid' : '' }}" name="body" value="{{ old('body') }}" required>
+                                    <input id="body" type="text"
+                                           class="form-control{{ $errors->has('body') ? ' is-invalid' : '' }}"
+                                           name="body" value="{{ $post->body }}" required>
 
                                     @if ($errors->has('body'))
                                         <span class="invalid-feedback" role="alert">
@@ -55,7 +61,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        create post
+                                        update post
                                     </button>
                                 </div>
                             </div>
