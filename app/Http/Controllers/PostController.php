@@ -112,7 +112,7 @@ class PostController extends Controller
             'image' => 'required',
             'body' => 'required',
         ]);
-        if($post->user_id==Auth::id()) {
+        if($post->user_id==Auth::id()|| auth()->user()->type == 'admin') {
             if ($validatedData) {
 
                 //get image

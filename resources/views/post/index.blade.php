@@ -11,7 +11,7 @@
                         </a>
                         <h3 class="text-center text-success">{{Session::get('message')}}</h3>
                     </div>
-                    <table class="table">
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th scope="col">user id</th>
@@ -37,20 +37,20 @@
                                     @else
                                         <span class="badge bg-pink">pending</span>
                                     @endif</td>
-                                <td>
+                                <td class="d-inline-flex">
                                     <a href="{{route('post.show',$post->id)}}"
-                                       class="btn btn-info waves-effect">
-                                        <i class="material-icons">visibility</i>
+                                       class="btn btn-info waves-effect small">
+                                        <span>details</span>
                                     </a>
                                     <a href="{{route('post.edit',$post->id)}}"
-                                       class="btn btn-info waves-effect">
-                                        <i class="material-icons">edit</i>
+                                       class="btn btn-info waves-effect small">
+                                        <span>edit</span>
                                     </a>
                                     <form method="post" action="{{ route('post.destroy' ,$post->id) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger waves-effect">
-                                            <i class="material-icons">delete</i>
+                                        <button type="submit" class="btn btn-danger waves-effect small">
+                                            <span>delete</span>
                                         </button>
                                     </form>
                                 </td>
