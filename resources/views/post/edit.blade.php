@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <form method="POST" action="{{ route('post.update',$post->id) }}" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
+                            @method('PATCH')
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">title</label>
 
@@ -72,4 +72,3 @@
         </div>
     </div>
 @endsection
-

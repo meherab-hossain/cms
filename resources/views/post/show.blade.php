@@ -26,32 +26,32 @@
                                 {{$post->body}}
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                @if($post->is_approved == false)
-                                    <span>pending</span>
-                                @endif
+                        @can('isUser')
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    @if($post->is_approved == false)
+                                        <span>pending</span>
+                                    @endif
+                                </div>
+
                             </div>
-
-                        </div>
-
+                        @endcan
+@can('isAdmin')
                             @if($post->is_approved == false)
 
                                 <form method="post" action="{{route('post.approve',$post->id)}}">
                                     @csrf
                                     @method('PUT')
                                     <button type="submit" class="btn btn-success waves-effect pull-right">
-                                        <i class="material-icons">done</i>
                                         <span>Approve</span>
                                     </button>
                                 </form>
                             @else
                                 <button type="button" class="btn btn-success pull-right" disabled>
-                                    <i class="material-icons">done</i>
                                     <span>Approved</span>
                                 </button>
                             @endif
-
+@endcan
 
                     </div>
                 </div>

@@ -5,8 +5,12 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <h1>this is post page</h1>
-                    <a href="{{route('post.create')}}"> create a post</a>
+                    <div class="block-header">
+                        <a href="{{route('post.create')}}" class="btn btn-primary waves-effect">
+                            <span>Add New Post</span>
+                        </a>
+                        <h3 class="text-center text-success">{{Session::get('message')}}</h3>
+                    </div>
                     <table class="table">
                         <thead>
                         <tr>

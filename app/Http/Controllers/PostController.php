@@ -79,6 +79,7 @@ class PostController extends Controller
         if ($post->is_approved == false) {
             $post->is_approved = true;
             $post->save();
+            return redirect('post');
         }
     }
     public function show(Post $post)
@@ -89,7 +90,13 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        return view('post.edit', compact('post'));
+        if($post->user_id==Auth::id()|| auth()->user()->type == 'admin'){
+            return view('post.edit', compact('post'));
+        }else{
+            //return view('error')->with('message','you dont have access to edit this file');
+            return redirect('post')->with('message','you dont have access to edit this file');
+        }
+
     }
 
 
@@ -105,57 +112,67 @@ class PostController extends Controller
             'image' => 'required',
             'body' => 'required',
         ]);
+        if($post->user_id==Auth::id()) {
+            if ($validatedData) {
 
-        if($validatedData){
-
-            //get image
-            $image = $request->file('image');
-            $slug = str_slug($request->title);
+                //get image
+                $image = $request->file('image');
+                $slug = str_slug($request->title);
 
 
-            if (isset($image)) {
-                //unique name for image
-                $currentDate = Carbon::now()->toDateString();
-                $imageName = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+                if (isset($image)) {
+                    //unique name for image
+                    $currentDate = Carbon::now()->toDateString();
+                    $imageName = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
 
-                //checking and creating the  image directory
-                if (!Storage::disk('public')->exists('post')) {
-                    Storage::disk('public')->makeDirectory('post');
+                    //checking and creating the  image directory
+                    if (!Storage::disk('public')->exists('post')) {
+                        Storage::disk('public')->makeDirectory('post');
+                    }
+                    if (Storage::disk('public')->exists('post/' . $post->image)) {
+                        Storage::disk('public')->delete('post/' . $post->image);
+                    }
+                    //post image resize and saved in the directory
+                    $postImage = Image::make($image)->resize(1600, 1046)->stream();
+                    Storage::disk('public')->put('post/' . $imageName, $postImage);
+
+
+                } else {
+                    $imageName = "default.png";
                 }
-                if (Storage::disk('public')->exists('post/' . $post->image)) {
-                    Storage::disk('public')->delete('post/' . $post->image);
+
+                $post->title = $request->title;
+                $post->user_id = Auth::id();
+                $post->slug = $slug;
+                $post->image = $imageName;
+                $post->body = $request->body;
+                if ($post->user->type == 'admin') {
+
+                    $post->is_approved = true;
                 }
-                //post image resize and saved in the directory
-                $postImage = Image::make($image)->resize(1600, 1046)->stream();
-                Storage::disk('public')->put('post/' . $imageName, $postImage);
 
-
-            } else {
-                $imageName = "default.png";
+                $post->save();
+                return redirect('post');
             }
-
-            $post->title = $request->title;
-            $post->user_id = Auth::id();
-            $post->slug = $slug;
-            $post->image = $imageName;
-            $post->body = $request->body;
-            if ($post->user->type == 'admin') {
-
-                $post->is_approved = true;
-            }
-
-            $post->save();
-            return redirect('post');
+        }else{
+            return redirect('post')->with('message','you dont have access to update this file');
         }
     }
 
 
     public function destroy(Post $post)
     {
-        if (Storage::disk('public')->exists('post/'.$post->image)) {
-            Storage::disk('public')->delete('post/'.$post->image);
+        //|| auth()->user()->type == 'admin'
+        if($post->user_id==Auth::id()){
+            if (Storage::disk('public')->exists('post/'.$post->image)) {
+                Storage::disk('public')->delete('post/'.$post->image);
+            }
+            $post->delete();
+            return redirect()->back();
+        }else{
+            return redirect('post')->with('message','you dont have access to delete this file');
         }
-        $post->delete();
-        return redirect()->back();
+
+
     }
 }
