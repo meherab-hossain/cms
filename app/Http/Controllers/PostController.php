@@ -12,6 +12,9 @@ use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
 
     public function index()
     {
@@ -112,7 +115,7 @@ class PostController extends Controller
             'image' => 'required',
             'body' => 'required',
         ]);
-        if($post->user_id==Auth::id()|| auth()->user()->type == 'admin') {
+        if($post->user_id==Auth::id()) {
             if ($validatedData) {
 
                 //get image

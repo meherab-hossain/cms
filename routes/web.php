@@ -21,4 +21,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('post','PostController');
+Route::resource('video','videoController');
 Route::put('post/{post}','PostController@approval')->name('post.approve');
