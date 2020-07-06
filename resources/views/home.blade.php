@@ -88,9 +88,17 @@
                                                                      class="img-responsive thumbnail"
                                                                      src="{{ asset('storage/post/'.$combineItem->image) }}"/>
                                                             @else
-                                                                <img width="150px" height="150px"
-                                                                        src="{{$combineItem->video}}"
-                                                                />
+                                                                <div>
+                                                                    <img class="imgPosition bg-danger" width="150px"
+                                                                         height="150px"
+                                                                         src="{{$combineItem->video}}"
+                                                                    />
+                                                                </div>
+                                                                <button class="close imgButton"
+                                                                        onclick="playVideo({{$combineItem}})"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -117,3 +125,9 @@
         </div>
     </div>
 @endsection
+<script type="text/javascript">
+    function playVideo(item) {
+        window.open(item.url, '_blank');
+        console.log(item.url)
+    }
+</script>

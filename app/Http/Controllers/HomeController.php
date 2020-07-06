@@ -32,6 +32,7 @@ class HomeController extends Controller
         $section1Videos=$videos->collect()->map(function ($item){
             if($item->type=='section1'){
                 //img.youtube.com/vi/" + vid + "/0.jpg
+                $item['url']=$item->video;
                 $item->video='//img.youtube.com/vi/'.$this->YoutubeID($item->video).'/0.jpg';
                 return $item;
             }
@@ -45,7 +46,9 @@ class HomeController extends Controller
         //section-two
         $section2Videos=$videos->collect()->map(function ($item){
             if($item->type=='section2'){
+                $var=$item->video;
                 $item->video='//img.youtube.com/vi/'.$this->YoutubeID($item->video).'/0.jpg';
+                $item['url']=$var;
                 return $item;
             }
         });
