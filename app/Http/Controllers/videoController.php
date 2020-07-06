@@ -30,15 +30,22 @@ class videoController extends Controller
 
     public function store(Request $request)
     {
-       // return $request->all();
+        //return $request->all();
         $this->validate($request,[
            'title'=>'required',
-           'video'=>'required'
+           'video'=>'required',
+           'type'=>'required'
         ]);
         $video=new video();
         $video->title=$request->title;
         $video->user_id=Auth::id();
         $video->video=$request->video;
+        $video->type=$request->type;
+        if($video->user->type=='admin'){
+            $video->is_approved = true;
+        }else{
+            $video->is_approved = false;
+        }
         $video->save();
         return redirect()->route('video.index');
 
@@ -60,11 +67,21 @@ class videoController extends Controller
     }
 
 
-    public function show($id)
+    public function show(video $video)
     {
-        //
+        $video->video=$this->YoutubeID($video->video);
+        return view('video.show',compact('video'));
     }
+    public function approval($id)
+    {
+        $video = video::find($id);
 
+        if ($video->is_approved == false) {
+            $video->is_approved = true;
+            $video->save();
+            return redirect('video');
+        }
+    }
 
     public function edit($id)
     {

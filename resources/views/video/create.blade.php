@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">create post</div>
+                    <div class="card-header">Video Post</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('video.store') }}" enctype="multipart/form-data">
@@ -15,7 +15,9 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">title</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title') }}" required autofocus>
+                                    <input id="name" type="text"
+                                           class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}"
+                                           name="title" value="{{ old('title') }}" required autofocus>
 
                                     @if ($errors->has('title'))
                                         <span class="invalid-feedback" role="alert">
@@ -24,12 +26,31 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('type') }}</label>
+
+                                <div class="col-md-6">
+                                    <select name="type" class="form-control" id="type">
+                                        <option selected>select your section</option>
+                                        <option value="section1">section1</option>
+                                        <option value="section2">section2</option>
+                                    </select>
+                                    @if ($errors->has('type'))
+                                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('type') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
+                            </div>
 
                             <div class="form-group row">
                                 <label for="email" class="col-md-4 col-form-label text-md-right">image</label>
 
                                 <div class="col-md-6">
-                                    <input id="video" type="text" class="form-control{{ $errors->has('video') ? ' is-invalid' : '' }}" name="video" value="{{ old('video') }}" required>
+                                    <input id="video" type="text"
+                                           class="form-control{{ $errors->has('video') ? ' is-invalid' : '' }}"
+                                           name="video" value="{{ old('video') }}" required>
 
                                     @if ($errors->has('video'))
                                         <span class="invalid-feedback" role="alert">

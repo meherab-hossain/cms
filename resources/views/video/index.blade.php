@@ -14,9 +14,11 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th scope="col">user id</th>
-                            <th scope="col">title</th>
-                            <th scope="col">video</th>
+                            <th scope="col">User Id</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Video</th>
+                            <th scope="col">Publish</th>
+                            <th scope="col">Section</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
@@ -33,6 +35,16 @@
                                             frameborder="0"
                                             allowfullscreen>
                                     </iframe>
+                                </td>
+                                <td>
+                                    @if($video->is_approved==true)
+                                        <span class="badge bg-blue">approved</span>
+                                    @else
+                                        <span class="badge bg-pink">pending</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    {{$video->type}}
                                 </td>
                                 <td class="d-inline-flex">
                                     <a href="{{route('video.show',$video->id)}}"

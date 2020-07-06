@@ -18,6 +18,8 @@ class CreateVideosTable extends Migration
             $table->unsignedBigInteger('user_id')->unsigned();
             $table->text('title');
             $table->text('video');
+            $table->string('type')->default('section1');
+            $table->boolean('is_approved')->default(false);
             $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');

@@ -29,7 +29,8 @@
                                 <th scope="row">{{$post->user->id}}</th>
                                 <td>{{$post->title}}</td>
                                 <td>{{$post->user->name}}</td>
-                                <td>{{$post->image}}</td>
+                                <td><img height="150px" width="150px" class="img-responsive thumbnail"
+                                         src="{{ asset('storage/post/'.$post->image) }}"/></td>
                                 <td>{{$post->body}}</td>
                                 <td>
                                     @if($post->is_approved==true)

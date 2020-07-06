@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\video;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -35,6 +36,12 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('isUser',function($user){
             return $user->type === 'user';
+        });
+        Gate::define('isSection1',function(video $video){
+            return $video->type === 'section1';
+        });
+        Gate::define('isSection2',function(video $video){
+            return $video->type === 'section2';
         });
     }
 }

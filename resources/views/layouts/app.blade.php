@@ -30,7 +30,7 @@
                 <a class="navbar-brand" href="{{ route('post.index') }}">
                    post
                 </a>
-                <a class="navbar-brand" href="{{ route('video.create') }}">
+                <a class="navbar-brand" href="{{ route('video.index') }}">
                    post video
                 </a>
                 @endauth

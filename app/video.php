@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class video extends Model
 {
     public function user(){
-        $this->belongsTo(User::class);
+       return $this->belongsTo(User::class);
     }
 
     public function setKeyAttribute($value)

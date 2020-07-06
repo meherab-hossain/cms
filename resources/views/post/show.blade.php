@@ -31,12 +31,14 @@
                                 <div class="col-md-12">
                                     @if($post->is_approved == false)
                                         <span>pending</span>
+                                    @else
+                                        <span class="text-success">approved</span>
                                     @endif
                                 </div>
 
                             </div>
                         @endcan
-@can('isAdmin')
+                        @can('isAdmin')
                             @if($post->is_approved == false)
 
                                 <form method="post" action="{{route('post.approve',$post->id)}}">
@@ -51,7 +53,7 @@
                                     <span>Approved</span>
                                 </button>
                             @endif
-@endcan
+                        @endcan
 
                     </div>
                 </div>
