@@ -20,6 +20,7 @@
                             <th scope="col">image</th>
                             <th scope="col">body</th>
                             <th scope="col">publish</th>
+                            <th scope="col">Section</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
@@ -37,7 +38,11 @@
                                         <span class="badge bg-blue">approved</span>
                                     @else
                                         <span class="badge bg-pink">pending</span>
-                                    @endif</td>
+                                    @endif
+                                </td>
+                                <td>
+                                    {{$post->type}}
+                                </td>
                                 <td class="d-inline-flex">
                                     <a href="{{route('post.show',$post->id)}}"
                                        class="btn btn-info waves-effect small">

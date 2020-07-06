@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->string('slug');
             $table->string('image')->default('default.png');
             $table->text('body');
+            $table->string('type')->default('section1');
             $table->boolean('is_approved')->default(false);
             $table->foreign('user_id')
                 ->references('id')->on('users')

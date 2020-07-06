@@ -39,6 +39,23 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('type') }}</label>
+
+                                <div class="col-md-6">
+                                    <select name="type" class="form-control" id="type">
+                                        <option selected>select your section</option>
+                                        <option value="section1">section1</option>
+                                        <option value="section2">section2</option>
+                                    </select>
+                                    @if ($errors->has('type'))
+                                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('type') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
                                 <label for="body" class="col-md-4 col-form-label text-md-right">body</label>
 
                                 <div class="col-md-6">

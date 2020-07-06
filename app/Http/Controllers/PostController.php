@@ -35,6 +35,7 @@ class PostController extends Controller
             'title' => 'required|unique:posts',
             'image' => 'required',
             'body' => 'required',
+            'title' => 'required'
         ]);
 
         $slugValue = $request->title;
@@ -70,7 +71,7 @@ class PostController extends Controller
         }else{
             $post->is_approved = false;
         }
-
+        $post->type=$request->type;
 
         $post->save();
         return redirect('post');

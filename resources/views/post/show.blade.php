@@ -26,6 +26,11 @@
                                 {{$post->body}}
                             </div>
                         </div>
+                        <div class=" form-group row">
+                            <div class="col-md-12">
+                                {{$post->type}}
+                            </div>
+                        </div>
                         @can('isUser')
                             <div class="form-group row">
                                 <div class="col-md-12">
