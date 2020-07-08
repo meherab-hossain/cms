@@ -19,6 +19,7 @@
 
                                 <div class="col-md-6">
                                     @foreach($combineSection1Items as $combineItem)
+
                                         <div class="card">
                                             <div class="card-body text-center">
 

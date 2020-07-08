@@ -33,7 +33,7 @@
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     @if($video->is_approved == false)
-                                        <span class="text-warning">pending</span>
+                                        <span class="text-danger">pending</span>
                                     @else
                                         <span class="text-success">approved</span>
                                     @endif

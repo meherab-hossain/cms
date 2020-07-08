@@ -10941,8 +10941,8 @@ a.text-dark:focus {
 
 .wrapper .btn {
     position: absolute;
-    top: 80%;
-    left: 80%;
+    right: 0;
+    bottom: 0;
 
     background-color: #555;
    }
@@ -10950,15 +10950,3 @@ a.text-dark:focus {
     width: 40px;
 }
 
-/*
-.imgPosition{
-  position: relative;
-}
-.imgButton{
-  position: absolute;
-  top: 60%;
-  width:20%;
-  height: 20%;
-  border-radius: 50%;
-  left: 50%;
-}*/

@@ -37,12 +37,6 @@ class PostController extends Controller
             'body' => 'required',
             'type' => 'required',
         ]);
-      /*  $this->validate($request, [
-            'title' => 'required|unique:posts',
-            'image' => 'required',
-            'body' => 'required',
-            'title' => 'required'
-        ]);*/
 
       if($validatedData){
           $slugValue = $request->title;
@@ -84,6 +78,7 @@ class PostController extends Controller
           return redirect('post');
       }
     }
+
     public function approval($id)
     {
         $post = Post::find($id);
@@ -94,6 +89,7 @@ class PostController extends Controller
             return redirect('post');
         }
     }
+
     public function show(Post $post)
     {
         return view('post.show',compact('post'));
