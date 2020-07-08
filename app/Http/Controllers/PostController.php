@@ -176,7 +176,7 @@ class PostController extends Controller
                 Storage::disk('public')->delete('post/'.$post->image);
             }
             $post->delete();
-            return redirect()->back();
+            return redirect('post');
         }else{
             return redirect('post')->with('message','you dont have access to delete this file');
         }

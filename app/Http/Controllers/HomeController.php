@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\video;
+use App\Video;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $videos=video::where('is_approved' ,'=', true)->get();
+        $videos=Video::where('is_approved' ,'=', true)->get();
         $posts=Post::where('is_approved' ,'=', true)->get();
 
         //section-one

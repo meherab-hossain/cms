@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use mysql_xdevapi\Collection;
 use function PHPSTORM_META\map;
 
-class videoController extends Controller
+class VideoController extends Controller
 {
 
     public function __construct(){
@@ -17,7 +17,7 @@ class videoController extends Controller
     
     public function index()
     {
-        $videos=video::all();
+        $videos=Video::all();
         $videos=$videos->collect()->map(function ($item) {
             $item->video=$this->YoutubeID($item->video);
             return $item;
@@ -40,7 +40,7 @@ class videoController extends Controller
            'video'=>'required',
            'type'=>'required'
         ]);
-        $video=new video();
+        $video=new Video();
         $video->title=$request->title;
         $video->user_id=Auth::id();
         $video->video=$request->video;
@@ -71,19 +71,19 @@ class videoController extends Controller
     }
 
 
-    public function show(video $video)
+    public function show(Video $video)
     {
         $video->video=$this->YoutubeID($video->video);
         return view('video.show',compact('video'));
     }
     public function approval($id)
     {
-        $video = video::find($id);
+        $video = Video::find($id);
 
         if ($video->is_approved == false) {
             $video->is_approved = true;
             $video->save();
-            return redirect('video');
+            return redirect()->route('video.index');
         }
     }
 

@@ -46,12 +46,12 @@
                                 <td>
                                     {{$video->type}}
                                 </td>
-                                <td class="d-inline-flex">
+                                <td>
                                     <a href="{{route('video.show',$video->id)}}"
                                        class="btn btn-info waves-effect small">
                                         <span>details</span>
                                     </a>
-                                    <a href="{{route('video.edit',$video->id)}}"
+                                    {{--<a href="{{route('video.edit',$video->id)}}"
                                        class="btn btn-info waves-effect small ml-2">
                                         <span>edit</span>
                                     </a>
@@ -61,7 +61,7 @@
                                         <button type="submit" class="btn btn-danger waves-effect ml-2 small">
                                             <span>delete</span>
                                         </button>
-                                    </form>
+                                    </form>--}}
                                 </td>
                             </tr>
                         @endforeach

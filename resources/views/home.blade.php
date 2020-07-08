@@ -20,6 +20,14 @@
                                 <div class="col-md-6">
                                     <div class="grid-items-row">
                                         @foreach($combineSection1Items as $combineItem)
+                                            @php
+                                                if($combineItem->image){
+                                                $route='post.show';
+                                                }else{
+                                                $route='video.show';
+                                                }
+                                            @endphp
+
                                             <div class="wrapper">
                                                 <div>
                                                     @if($combineItem->image)
@@ -34,18 +42,23 @@
 
 
                                                             <span class="material-icons icon mySpan border text-center "
-                                                                  onclick="playVideo({{$combineItem}})">
+                                                                  onclick="playVideo({{$combineItem}})"
+                                                                  style="cursor: pointer">
                                                                             video_library
                                                             </span>
                                                         </div>
 
                                                     @endif
-                                                    <div class="b">
-                                                        {{$combineItem->title}}
+                                                    <div class="text-length">
+                                                        <a href="{{route($route,$combineItem->id)}}">
+                                                            {{$combineItem->title}}
+                                                        </a>
                                                     </div>
                                                     <div>
-                                                        <div class="b">
-                                                            {{$combineItem->body}}
+                                                        <div class="text-length">
+                                                            <a href="{{route($route,$combineItem->id)}}">
+                                                                {{$combineItem->body}}
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -59,41 +72,51 @@
                                 <div class="col-md-6">
                                     <div class="grid-items">
                                         @foreach($combineSection2Items as $combineItem)
+                                            @php
+                                                if($combineItem->image){
+                                                $route='post.show';
+                                                }else{
+                                                $route='video.show';
+                                                }
+                                            @endphp
                                             <div>
-                                                <div class="wrapper">
+                                                <div class="wrapper p-2" style="width: 100%">
                                                     @if($combineItem->image)
                                                         <img
                                                                 class="img-responsive thumbnail"
-                                                                src="{{ asset('storage/post/'.$combineItem->image) }}"/>
+                                                                src="{{ asset('storage/post/'.$combineItem->image) }}"
+                                                        />
                                                     @else
                                                         <div>
-                                                            <img
-                                                                    src="{{$combineItem->video}}"
-                                                            />
-
+                                                            <img class="pb-2" src="{{$combineItem->video}}"/>
 
                                                             <span class="material-icons icon mySpan border text-center "
-                                                                  onclick="playVideo({{$combineItem}})">
+                                                                  onclick="playVideo({{$combineItem}})"
+                                                                  style="cursor: pointer">
                                                                             video_library
-                                                            </span>
+                                                               </span>
                                                         </div>
-
                                                     @endif
-                                                    <div class="b">
-                                                        {{$combineItem->title}}
+
+                                                    <div class="text-length">
+                                                        <a href="{{route($route,$combineItem->id)}}">
+                                                            {{$combineItem->title}}
+                                                        </a>
+
                                                     </div>
+
                                                     <div>
-                                                        <div class="b">
-                                                            {{$combineItem->body}}
+                                                        <div class="text-length">
+                                                            <a href="{{route($route,$combineItem->id)}}">
+                                                                {{$combineItem->body}}
+                                                            </a>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
-
                                         @endforeach
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
