@@ -60,20 +60,20 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - [Hyper Host](https://hyper.host)
 - [Appoly](https://www.appoly.co.uk)
 - [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
 
-## Contributing
+##Installation
+this is an content management system app.Basically here is how you use it for yourself
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Clone the repo git clone https://github.com/meherab-hossain/cms
+<p>cd to project folder.</p>
+<p>Run composer install</P>
+<p>Save as the .env.example to .env and set your database information</P>
+<p>Run php artisan key:generate to generate the app key</P>
+<p>Run npm install</P>
+<p>Run php artisan storage:link</P>
+<p>Run php artisan migrate</P>
+<p>Run php artisan db:seed</P>
 
-## Code of Conduct
+Done !!! Enjoy Customizing and building awesome app
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
