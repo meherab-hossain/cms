@@ -31,50 +31,58 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
+        $validatedData = $request->validate([
+            'title' => ['required','unique:posts'],
+            'image' => 'required',
+            'body' => 'required',
+            'type' => 'required',
+        ]);
+      /*  $this->validate($request, [
             'title' => 'required|unique:posts',
             'image' => 'required',
             'body' => 'required',
             'title' => 'required'
-        ]);
+        ]);*/
 
-        $slugValue = $request->title;
-        //get image
-        $image = $request->file('image');
-        $slug = str_slug($slugValue);
+      if($validatedData){
+          $slugValue = $request->title;
+          //get image
+          $image = $request->file('image');
+          $slug = str_slug($slugValue);
 
-        //checking and creating the  image directory
-        if (!Storage::disk('public')->exists('post')) {
-            Storage::disk('public')->makeDirectory('post');
-        }
-        if (isset($image)) {
-            //unique name for image
-            $currentDate = Carbon::now()->toDateString();
-            $imageName = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $postImage = Image::make($image)->resize(1600, 1046)->stream();
+          //checking and creating the  image directory
+          if (!Storage::disk('public')->exists('post')) {
+              Storage::disk('public')->makeDirectory('post');
+          }
+          if (isset($image)) {
+              //unique name for image
+              $currentDate = Carbon::now()->toDateString();
+              $imageName = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+              $postImage = Image::make($image)->resize(1600, 1046)->stream();
 
-            Storage::disk('public')->put('post/' . $imageName, $postImage);
+              Storage::disk('public')->put('post/' . $imageName, $postImage);
 
 
-        } else {
-            $imageName = "default.png";
-        }
+          } else {
+              $imageName = "default.png";
+          }
 
-        $post = new Post();
-        $post->title = $request->title;
-        $post->user_id = Auth::id();
-        $post->slug = $slug;
-        $post->image = $imageName;
-        $post->body = $request->body;
-        if($post->user->type=='admin'){
-            $post->is_approved = true;
-        }else{
-            $post->is_approved = false;
-        }
-        $post->type=$request->type;
+          $post = new Post();
+          $post->title = $request->title;
+          $post->user_id = Auth::id();
+          $post->slug = $slug;
+          $post->image = $imageName;
+          $post->body = $request->body;
+          if($post->user->type=='admin'){
+              $post->is_approved = true;
+          }else{
+              $post->is_approved = false;
+          }
+          $post->type=$request->type;
 
-        $post->save();
-        return redirect('post');
+          $post->save();
+          return redirect('post');
+      }
     }
     public function approval($id)
     {

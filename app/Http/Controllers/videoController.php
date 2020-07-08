@@ -11,6 +11,10 @@ use function PHPSTORM_META\map;
 class videoController extends Controller
 {
 
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $videos=video::all();

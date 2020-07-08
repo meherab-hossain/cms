@@ -10928,14 +10928,37 @@ a.text-dark:focus {
   }
 }
 
+.wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.wrapper img {
+    width: 100%;
+    height: auto;
+}
+
+.wrapper .btn {
+    position: absolute;
+    top: 80%;
+    left: 80%;
+
+    background-color: #555;
+   }
+.wrapper .icon{
+    width: 40px;
+}
+
+/*
 .imgPosition{
   position: relative;
 }
 .imgButton{
   position: absolute;
-  top: 50%;
-  width: 50px;
-  height: 50px;
+  top: 60%;
+  width:20%;
+  height: 20%;
   border-radius: 50%;
   left: 50%;
-}
+}*/

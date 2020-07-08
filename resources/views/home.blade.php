@@ -5,7 +5,7 @@
         <div>
             <div>
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
+                    <div class="card-header">Blog</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -20,8 +20,6 @@
                                 <div class="col-md-6">
                                     @foreach($combineSection1Items as $combineItem)
                                         <div class="card">
-                                            <div class="card-header">create post</div>
-
                                             <div class="card-body text-center">
 
                                                 <div class="form-group row">
@@ -34,15 +32,23 @@
 
                                                     <div class="col-md-12">
                                                         @if($combineItem->image)
-                                                            <img height="150px" width="150px"
+                                                            <img style="width:100%"
                                                                  class="img-responsive thumbnail"
                                                                  src="{{ asset('storage/post/'.$combineItem->image) }}"/>
                                                         @else
-                                                            <iframe width="360" height="315"
-                                                                    src="http://www.youtube.com/embed/{{$combineItem->video}}"
-                                                                    frameborder="0"
-                                                                    allowfullscreen>
-                                                            </iframe>
+                                                            <div class="wrapper">
+                                                                <img style="width:100%"
+                                                                     src="{{$combineItem->video}}"
+                                                                />
+                                                                <button onclick="playVideo({{$combineItem}})"
+                                                                        class="btn"
+                                                                        aria-label="Close">
+                                                                        <span class="material-icons icon">
+                                                                            video_library
+                                                                        </span>
+                                                                </button>
+                                                            </div>
+
                                                         @endif
                                                     </div>
                                                 </div>
@@ -66,12 +72,10 @@
                                     @foreach($combineSection2Items as $combineItem)
                                         @empty($combineItem)
                                             <div class="col-md-6">
-                                                <div>hello there</div>
+                                                <div>NO Posts</div>
                                             </div>
                                         @else
                                             <div class="card">
-                                                <div class="card-header">create post</div>
-
                                                 <div class="card-body text-center">
 
                                                     <div class="form-group row">
@@ -84,21 +88,23 @@
 
                                                         <div class="col-md-12">
                                                             @if($combineItem->image)
-                                                                <img height="150px" width="150px"
+                                                                <img style="width:100%"
                                                                      class="img-responsive thumbnail"
                                                                      src="{{ asset('storage/post/'.$combineItem->image) }}"/>
                                                             @else
-                                                                <div>
-                                                                    <img class="imgPosition bg-danger" width="150px"
-                                                                         height="150px"
+                                                                <div class="wrapper">
+                                                                    <img style="width:100%"
                                                                          src="{{$combineItem->video}}"
                                                                     />
+                                                                    <button onclick="playVideo({{$combineItem}})"
+                                                                            class="btn"
+                                                                            aria-label="Close">
+                                                                        <span class="material-icons icon">
+                                                                            video_library
+                                                                        </span>
+                                                                    </button>
                                                                 </div>
-                                                                <button class="close imgButton"
-                                                                        onclick="playVideo({{$combineItem}})"
-                                                                        aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
+
                                                             @endif
                                                         </div>
                                                     </div>

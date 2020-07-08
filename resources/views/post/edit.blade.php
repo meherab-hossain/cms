@@ -12,7 +12,7 @@
                             @csrf
                             @method('PATCH')
                             <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">title</label>
+                                <label for="name" class="col-md-4 col-form-label text-md-right">Title</label>
 
                                 <div class="col-md-6">
                                     <input id="name" type="text"
@@ -28,7 +28,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">image</label>
+                                <label for="email" class="col-md-4 col-form-label text-md-right">Image</label>
 
                                 <div class="col-md-6">
                                     <input id="image" type="file"
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="body" class="col-md-4 col-form-label text-md-right">body</label>
+                                <label for="body" class="col-md-4 col-form-label text-md-right">Body</label>
 
                                 <div class="col-md-6">
                                     <input id="body" type="text"
@@ -61,7 +61,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        update post
+                                        Update Post
                                     </button>
                                 </div>
                             </div>

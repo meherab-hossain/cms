@@ -14,12 +14,12 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th scope="col">user id</th>
-                            <th scope="col">title</th>
-                            <th scope="col">name</th>
-                            <th scope="col">image</th>
-                            <th scope="col">body</th>
-                            <th scope="col">publish</th>
+                            <th scope="col">User Id</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Body</th>
+                            <th scope="col">Publish</th>
                             <th scope="col">Section</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -46,17 +46,17 @@
                                 <td class="d-inline-flex">
                                     <a href="{{route('post.show',$post->id)}}"
                                        class="btn btn-info waves-effect small">
-                                        <span>details</span>
+                                        <span>Details</span>
                                     </a>
                                     <a href="{{route('post.edit',$post->id)}}"
                                        class="btn btn-info waves-effect small ml-2">
-                                        <span>edit</span>
+                                        <span>Edit</span>
                                     </a>
                                     <form method="post" action="{{ route('post.destroy' ,$post->id) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger waves-effect ml-2 small">
-                                            <span>delete</span>
+                                            <span>Delete</span>
                                         </button>
                                     </form>
                                 </td>
