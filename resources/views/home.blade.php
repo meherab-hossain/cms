@@ -18,111 +18,82 @@
                             <div class="row justify-content-center">
 
                                 <div class="col-md-6">
-                                    @foreach($combineSection1Items as $combineItem)
+                                    <div class="grid-items-row">
+                                        @foreach($combineSection1Items as $combineItem)
+                                            <div class="wrapper">
+                                                <div>
+                                                    @if($combineItem->image)
+                                                        <img
+                                                                class="img-responsive thumbnail"
+                                                                src="{{ asset('storage/post/'.$combineItem->image) }}"/>
+                                                    @else
+                                                        <div>
+                                                            <img
+                                                                    src="{{$combineItem->video}}"
+                                                            />
 
-                                        <div class="card">
-                                            <div class="card-body text-center">
 
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
+                                                            <span class="material-icons icon mySpan border text-center "
+                                                                  onclick="playVideo({{$combineItem}})">
+                                                                            video_library
+                                                            </span>
+                                                        </div>
+
+                                                    @endif
+                                                    <div class="b">
                                                         {{$combineItem->title}}
                                                     </div>
-                                                </div>
-
-                                                <div class="form-group row">
-
-                                                    <div class="col-md-12">
-                                                        @if($combineItem->image)
-                                                            <img style="width:100%"
-                                                                 class="img-responsive thumbnail"
-                                                                 src="{{ asset('storage/post/'.$combineItem->image) }}"/>
-                                                        @else
-                                                            <div class="wrapper">
-                                                                <img style="width:100%"
-                                                                     src="{{$combineItem->video}}"
-                                                                />
-                                                                <button onclick="playVideo({{$combineItem}})"
-                                                                        class="btn"
-                                                                        aria-label="Close">
-                                                                        <span class="material-icons icon">
-                                                                            video_library
-                                                                        </span>
-                                                                </button>
-                                                            </div>
-
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class=" form-group row">
-                                                    <div class="col-md-12">
-                                                        {{$combineItem->body}}
-                                                    </div>
-                                                </div>
-                                                <div class=" form-group row">
-                                                    <div class="col-md-12">
-                                                        {{$combineItem->type}}
+                                                    <div>
+                                                        <div class="b">
+                                                            {{$combineItem->body}}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
+
                                 </div>
 
 
                                 <div class="col-md-6">
-                                    @foreach($combineSection2Items as $combineItem)
-                                        @empty($combineItem)
-                                            <div class="col-md-6">
-                                                <div>NO Posts</div>
-                                            </div>
-                                        @else
-                                            <div class="card">
-                                                <div class="card-body text-center">
+                                    <div class="grid-items">
+                                        @foreach($combineSection2Items as $combineItem)
+                                            <div>
+                                                <div class="wrapper">
+                                                    @if($combineItem->image)
+                                                        <img
+                                                                class="img-responsive thumbnail"
+                                                                src="{{ asset('storage/post/'.$combineItem->image) }}"/>
+                                                    @else
+                                                        <div>
+                                                            <img
+                                                                    src="{{$combineItem->video}}"
+                                                            />
 
-                                                    <div class="form-group row">
-                                                        <div class="col-md-12">
-                                                            {{$combineItem->title}}
-                                                        </div>
-                                                    </div>
 
-                                                    <div class="form-group row">
-
-                                                        <div class="col-md-12">
-                                                            @if($combineItem->image)
-                                                                <img style="width:100%"
-                                                                     class="img-responsive thumbnail"
-                                                                     src="{{ asset('storage/post/'.$combineItem->image) }}"/>
-                                                            @else
-                                                                <div class="wrapper">
-                                                                    <img style="width:100%"
-                                                                         src="{{$combineItem->video}}"
-                                                                    />
-                                                                    <button onclick="playVideo({{$combineItem}})"
-                                                                            class="btn"
-                                                                            aria-label="Close">
-                                                                        <span class="material-icons icon">
+                                                            <span class="material-icons icon mySpan border text-center "
+                                                                  onclick="playVideo({{$combineItem}})">
                                                                             video_library
-                                                                        </span>
-                                                                    </button>
-                                                                </div>
+                                                            </span>
+                                                        </div>
 
-                                                            @endif
-                                                        </div>
+                                                    @endif
+                                                    <div class="b">
+                                                        {{$combineItem->title}}
                                                     </div>
-                                                    <div class=" form-group row">
-                                                        <div class="col-md-12">
+                                                    <div>
+                                                        <div class="b">
                                                             {{$combineItem->body}}
-                                                        </div>
-                                                    </div>
-                                                    <div class=" form-group row">
-                                                        <div class="col-md-12">
-                                                            {{$combineItem->type}}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        @endempty
-                                    @endforeach
+
+                                        @endforeach
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
