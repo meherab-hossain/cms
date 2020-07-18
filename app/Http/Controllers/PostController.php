@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -42,7 +43,7 @@ class PostController extends Controller
           $slugValue = $request->title;
           //get image
           $image = $request->file('image');
-          $slug = str_slug($slugValue);
+          $slug = Str::slug($slugValue);
 
           //checking and creating the  image directory
           if (!Storage::disk('public')->exists('post')) {
