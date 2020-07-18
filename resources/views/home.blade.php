@@ -33,7 +33,10 @@
                                                     @if($combineItem->image)
                                                         <img
                                                                 class="img-responsive thumbnail"
-                                                                src="{{ asset('storage/post/'.$combineItem->image) }}"/>
+                                                                src="https://via.placeholder.com/150/FF0000/FFFFFF?Text=Down.com
+
+C/O https://placeholder.com/">
+                                                                <!-- src="{{ asset('storage/post/'.$combineItem->image) }}"/> -->
                                                     @else
                                                         <div>
                                                             <img
