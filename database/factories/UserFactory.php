@@ -35,7 +35,7 @@ $factory->define(Post::class, function (Faker $faker) {
             return User::all()->random();
         },
         'title' => $title,
-        'slug' => str_slug($title),
+        'slug' => Str::slug($title),
         'body' => $faker->text,
         'image'=>'deafult-image-2020-07-08-5f05ecc15b28b.jpg',
         'type'=>'section1',
