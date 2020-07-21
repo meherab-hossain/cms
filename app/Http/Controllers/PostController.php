@@ -43,6 +43,7 @@ class PostController extends Controller
           $slugValue = $request->title;
           //get image
           $image = $request->file('image');
+
           $slug = Str::slug($slugValue);
 
           //checking and creating the  image directory
@@ -50,9 +51,8 @@ class PostController extends Controller
               Storage::disk('public')->makeDirectory('post');
           }
           if (isset($image)) {
-              //unique name for image
-              $currentDate = Carbon::now()->toDateString();
-              $imageName = $slug . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+              $imageName =$image->getClientOriginalName();
+              $image->getClientOriginalExtension();
               $postImage = Image::make($image)->resize(1600, 1046)->stream();
 
               Storage::disk('public')->put('post/' . $imageName, $postImage);
@@ -126,7 +126,7 @@ class PostController extends Controller
 
                 //get image
                 $image = $request->file('image');
-                $slug = str_slug($request->title);
+                $slug = Str::slug($request->title);
 
 
                 if (isset($image)) {
