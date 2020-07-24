@@ -19,6 +19,8 @@ class CreatePostsTable extends Migration
             $table->string('title')->unique();
             $table->string('slug');
             $table->string('image')->default('default.png');
+            $table->string('imageUrl');
+            $table->string('public_id');
             $table->text('body');
             $table->string('type')->default('section1');
             $table->boolean('is_approved')->default(false);

@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
+use JD\Cloudder\Facades\Cloudder;
 
 class PostController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -33,51 +35,68 @@ class PostController extends Controller
     {
 
         $validatedData = $request->validate([
-            'title' => ['required','unique:posts'],
+            'title' => ['required', 'unique:posts'],
             'image' => 'required',
             'body' => 'required',
             'type' => 'required',
         ]);
 
-      if($validatedData){
-          $slugValue = $request->title;
-          //get image
-          $image = $request->file('image');
+        if ($validatedData) {
+            $slugValue = $request->title;
+            //get image
+            $image = $request->file('image');
 
-          $slug = Str::slug($slugValue);
+            $slug = Str::slug($slugValue);
 
-          //checking and creating the  image directory
-          if (!Storage::disk('public')->exists('post')) {
-              Storage::disk('public')->makeDirectory('post');
-          }
-          if (isset($image)) {
-              $imageName =$image->getClientOriginalName();
-              $image->getClientOriginalExtension();
-              $postImage = Image::make($image)->resize(1600, 1046)->stream();
+            //checking and creating the  image directory
+            if (!Storage::disk('public')->exists('post')) {
+                Storage::disk('public')->makeDirectory('post');
+            }
+            if (isset($image)) {
+                $imageName = $image->getClientOriginalName();
+                $image->getClientOriginalExtension();
+                $postImage = Image::make($image)->resize(1600, 1046)->stream();
+                Storage::disk('public')->put('post/' . $imageName, $postImage);
 
-              Storage::disk('public')->put('post/' . $imageName, $postImage);
+                $image_name = $image->getRealPath();
 
+                Cloudder::upload($image_name, null, $options = array("folder" => "cms/"));
 
-          } else {
-              $imageName = "default.png";
-          }
+                list($width, $height) = getimagesize($image_name);
 
-          $post = new Post();
-          $post->title = $request->title;
-          $post->user_id = Auth::id();
-          $post->slug = $slug;
-          $post->image = $imageName;
-          $post->body = $request->body;
-          if($post->user->type=='admin'){
-              $post->is_approved = true;
-          }else{
-              $post->is_approved = false;
-          }
-          $post->type=$request->type;
+                $image_url = Cloudder::secureShow(
+                    Cloudder::getPublicId(),
+                    [
+                        "width" => $width,
+                        "height" => $height
+                    ]
+                );
 
-          $post->save();
-          return redirect('post');
-      }
+                $publicId = Cloudder::getPublicId();
+            } else {
+                $imageName = "default.png";
+            }
+
+            $post = new Post();
+            $post->title = $request->title;
+            $post->user_id = Auth::id();
+            $post->slug = $slug;
+            $post->image = $imageName;
+
+            $post->imageUrl = $image_url;
+            $post->public_id = $publicId;
+
+            $post->body = $request->body;
+            if ($post->user->type == 'admin') {
+                $post->is_approved = true;
+            } else {
+                $post->is_approved = false;
+            }
+            $post->type = $request->type;
+
+            $post->save();
+            return redirect('post');
+        }
     }
 
     public function approval($id)
@@ -93,19 +112,18 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return view('post.show',compact('post'));
+        return view('post.show', compact('post'));
     }
 
 
     public function edit(Post $post)
     {
-        if($post->user_id==Auth::id()|| auth()->user()->type == 'admin'){
+        if ($post->user_id == Auth::id() || auth()->user()->type == 'admin') {
             return view('post.edit', compact('post'));
-        }else{
+        } else {
             //return view('error')->with('message','you dont have access to edit this file');
-            return redirect('post')->with('message','you dont have access to edit this file');
+            return redirect('post')->with('message', 'you dont have access to edit this file');
         }
-
     }
 
 
@@ -117,11 +135,11 @@ class PostController extends Controller
             'body' => 'required',
         ]);*/
         $validatedData = $request->validate([
-            'title' => ['required','unique:posts'],
+            'title' => ['required', 'unique:posts'],
             'image' => 'required',
             'body' => 'required',
         ]);
-        if($post->user_id==Auth::id()) {
+        if ($post->user_id == Auth::id()) {
             if ($validatedData) {
 
                 //get image
@@ -144,8 +162,6 @@ class PostController extends Controller
                     //post image resize and saved in the directory
                     $postImage = Image::make($image)->resize(1600, 1046)->stream();
                     Storage::disk('public')->put('post/' . $imageName, $postImage);
-
-
                 } else {
                     $imageName = "default.png";
                 }
@@ -163,8 +179,8 @@ class PostController extends Controller
                 $post->save();
                 return redirect('post');
             }
-        }else{
-            return redirect('post')->with('message','you dont have access to update this file');
+        } else {
+            return redirect('post')->with('message', 'you dont have access to update this file');
         }
     }
 
@@ -172,16 +188,18 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //|| auth()->user()->type == 'admin'
-        if($post->user_id==Auth::id()){
-            if (Storage::disk('public')->exists('post/'.$post->image)) {
-                Storage::disk('public')->delete('post/'.$post->image);
+        if ($post->user_id == Auth::id()) {
+            if (Storage::disk('public')->exists('post/' . $post->image)) {
+                Storage::disk('public')->delete('post/' . $post->image);
+            }
+            //deleting from cloud storage
+            if (isset($post->public_id)) {
+                Cloudder::destroyImage($post->public_id);
             }
             $post->delete();
             return redirect('post');
-        }else{
-            return redirect('post')->with('message','you dont have access to delete this file');
+        } else {
+            return redirect('post')->with('message', 'you dont have access to delete this file');
         }
-
-
     }
 }

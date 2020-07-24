@@ -28,14 +28,12 @@
                                                 }
                                             @endphp
 
-                                            <div class="wrapper">
+                                            <div class="wrapper" style="width: 100%">
                                                 <div>
                                                     @if($combineItem->image)
-                                                        <img
-                                                                class="img-responsive thumbnail"
-                                                                src="https://via.placeholder.com/150/FF0000/FFFFFF?Text=Down.com
-
-C/O https://placeholder.com/">
+                                                        <img class="img-responsive thumbnail"
+                                                        src="{{$combineItem->imageUrl}}"
+                                                        >
                                                                 <!-- src="{{ asset('storage/post/'.$combineItem->image) }}"/> -->
                                                     @else
                                                         <div>
@@ -87,7 +85,8 @@ C/O https://placeholder.com/">
                                                     @if($combineItem->image)
                                                         <img
                                                                 class="img-responsive thumbnail"
-                                                                src="{{ asset('storage/post/'.$combineItem->image) }}"
+                                                                src="{{$combineItem->imageUrl}}"
+                                                                {{-- src="{{ asset('storage/post/'.$combineItem->image) }}" --}}
                                                         />
                                                     @else
                                                         <div>

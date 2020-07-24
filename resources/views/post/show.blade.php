@@ -17,8 +17,8 @@
 
                         <div class="form-group row">
                             <div class="col-md-12">
-                                <img height="150px" width="150px" class="img-responsive thumbnail"
-                                     src="{{ asset('storage/post/'.$post->image) }}"/>
+                                <img height="150px" width="150px" class="img-responsive thumbnail" src="{{$post->imageUrl}}">
+                                {{-- src="{{ asset('storage/post/'.$post->image) }}"/> --}}
                             </div>
                         </div>
                         <div class=" form-group row">
